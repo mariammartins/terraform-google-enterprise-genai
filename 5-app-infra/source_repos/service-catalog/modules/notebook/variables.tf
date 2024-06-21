@@ -148,3 +148,19 @@ variable "tags" {
   description = "The Compute Engine tags to add to instance."
   default     = ["egress-internet"]
 }
+
+variable "kms_keyring" {
+  type        = string
+  description = <<EOF
+    The KMS keyring that will be used when selecting the KMS key, preferably this should be on the same region as var.location and the same environment.
+    This value can be obtained by running "gcloud kms keyrings list --project=KMS_PROJECT_ID --location=REGION".
+  EOF
+}
+
+variable "vpc_project" {
+  type        = string
+  description = <<EOF
+  This is the project id of the Restricted Shared VPC Host Project for your environment.
+  This value can be obtained by running "gcloud projects list --filter='labels.application_name:restricted-shared-vpc-host lifecycleState:ACTIVE'" and selecting the project.
+  EOF
+}

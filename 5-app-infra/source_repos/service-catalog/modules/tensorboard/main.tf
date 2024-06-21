@@ -19,7 +19,7 @@ resource "google_vertex_ai_tensorboard" "tensorboard" {
   description  = "Vertex tensorboard instance with cmek"
   labels       = {}
   region       = var.region
-  project      = data.google_project.project.project_id
+  project      = var.project_id
   encryption_spec {
     kms_key_name = data.google_kms_crypto_key.key.id
   }

@@ -17,7 +17,7 @@
 resource "google_pubsub_topic" "pubsub_topic" {
   provider = google-beta
 
-  project                    = data.google_project.project.project_id
+  project                    = var.project_id
   name                       = var.topic_name
   message_retention_duration = var.message_retention_duration
 

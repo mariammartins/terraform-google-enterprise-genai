@@ -18,7 +18,7 @@ resource "google_secret_manager_secret" "secret" {
   for_each  = toset(var.secret_names)
   secret_id = each.key
 
-  project = data.google_project.project.project_id
+  project = var.project_id
 
   #Set up Automatic Rotation of Secrets
   #Control ID: SM-CO-6.2
@@ -40,7 +40,7 @@ resource "google_secret_manager_secret" "secret" {
   replication {
     user_managed {
       replicas {
-        location = data.google_kms_key_ring.kms.location
+        location = data.google_kms_crypto_key.key.location
 
         #Customer Managed Encryption Keys
         #Control ID: COM-CO-2.3

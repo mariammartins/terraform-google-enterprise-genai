@@ -184,3 +184,16 @@ variable "project_id" {
   description = "Optional Project ID."
   default     = null
 }
+
+variable "kms_keyring" {
+  type        = string
+  description = <<EOF
+The KMS keyring that will be used when selecting the KMS key, preferably this should be on the same region as the other resources and the same environment.
+This value can be obtained by running "gcloud kms keyrings list --project=KMS_PROJECT_ID --location=REGION."
+EOF
+}
+
+variable "log_bucket" {
+  type        = string
+  description = "Bucket to store logs from the created bucket. This is the Env-level Log Bucket creted on 2-environments."
+}

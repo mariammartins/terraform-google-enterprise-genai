@@ -34,3 +34,11 @@ variable "secret_names" {
   type        = list(string)
   description = "Names of the secrets to be created."
 }
+
+variable "kms_keyring" {
+  type        = string
+  description = <<EOF
+The KMS keyring that will be used when selecting the KMS key, preferably this should be on the same region as the other resources and the same environment.
+This value can be obtained by running "gcloud kms keyrings list --project=KMS_PROJECT_ID --location=REGION."
+EOF
+}

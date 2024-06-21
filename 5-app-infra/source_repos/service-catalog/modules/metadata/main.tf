@@ -19,7 +19,7 @@ resource "google_vertex_ai_metadata_store" "store" {
   provider    = google-beta
   description = "Vertex Metadata store"
   region      = var.region
-  project     = data.google_project.project.project_id
+  project     = var.project_id
   encryption_spec {
     kms_key_name = data.google_kms_crypto_key.key.id
   }

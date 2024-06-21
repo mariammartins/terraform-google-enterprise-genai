@@ -17,7 +17,7 @@
 resource "google_artifact_registry_repository" "registry" {
   provider = google-beta
 
-  project                = data.google_project.project.project_id
+  project                = var.project_id
   location               = var.region
   repository_id          = var.name
   description            = var.description
