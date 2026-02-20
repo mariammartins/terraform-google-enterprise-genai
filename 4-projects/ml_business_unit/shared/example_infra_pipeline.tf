@@ -23,7 +23,7 @@ locals {
 }
 
 module "app_infra_cloudbuild_project" {
-  source = "../../modules/single_project"
+  source = "../../../modules/single_project"
   count  = local.enable_cloudbuild_deploy ? 1 : 0
 
   org_id              = local.org_id

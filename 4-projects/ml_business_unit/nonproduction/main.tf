@@ -22,7 +22,7 @@ module "bu_folder" {
 }
 
 module "ml_env" {
-  source = "../../modules/ml_env"
+  source = "../../../modules/ml_env"
 
   env                  = var.env
   business_code        = local.business_code

@@ -15,7 +15,7 @@
  */
 
 module "ml_organization_policies" {
-  source = "../../modules/ml-org-policies"
+  source = "../../../modules/ml-org-policies"
 
   org_id    = local.organization_id
   folder_id = local.folder_id
