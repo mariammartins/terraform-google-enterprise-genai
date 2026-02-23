@@ -29,7 +29,7 @@ resource "google_compute_organization_security_policy" "policy" {
   parent     = var.parent
 }
 
-resource "google_compute_organization_security_policy_rule" "rule" {
+resource "google_compute_firewall_policy_rule" "rule" {
   for_each = var.rules
 
   firewall_policy         = google_compute_firewall_policy.policy.id
@@ -42,6 +42,7 @@ resource "google_compute_organization_security_policy_rule" "rule" {
   # preview                 = each.value.preview
   match {
     # description = each.value.description
+
     src_ip_ranges  = each.value.direction == "INGRESS" ? each.value.ranges : null
     dest_ip_ranges = each.value.direction == "EGRESS" ? each.value.ranges : null
     dynamic "layer4_configs" {
