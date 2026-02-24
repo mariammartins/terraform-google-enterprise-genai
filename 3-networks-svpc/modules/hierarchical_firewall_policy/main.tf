@@ -24,7 +24,7 @@ resource "random_string" "suffix" {
   special = false
 }
 
-resource "google_compute_organization_security_policy" "policy" {
+resource "google_compute_firewall_policy" "policy" {
   short_name = "${var.name}-${random_string.suffix.result}"
   parent     = var.parent
 }
