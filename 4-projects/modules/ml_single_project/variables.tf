@@ -170,11 +170,6 @@ variable "default_service_account" {
   type        = string
   default     = "disable"
 }
-variable "create_project_sa" {
-  description = "Whether the default service account for the project shall be created"
-  type        = bool
-  default     = false
-}
 
 variable "environment_kms_project_id" {
   description = "Environment level KMS Project ID."

@@ -14,7 +14,6 @@ Create and manage a Google Cloud project with various configurations and roles r
 | billing\_account | The ID of the billing account to associated this project with. | `string` | n/a | yes |
 | billing\_code | The code that's used to provide chargeback information. | `string` | n/a | yes |
 | business\_code | The code that describes which business unit owns the project. | `string` | `"abcd"` | no |
-| create\_project\_sa | Whether the default service account for the project shall be created | `bool` | `false` | no |
 | default\_service\_account | Project default service account setting: can be one of `delete`, `depriviledge`, `keep` or `disable`. | `string` | `"disable"` | no |
 | enable\_cloudbuild\_deploy | Enable infra deployment using Cloud Build. | `bool` | `false` | no |
 | environment | The environment the project belongs to. | `string` | n/a | yes |

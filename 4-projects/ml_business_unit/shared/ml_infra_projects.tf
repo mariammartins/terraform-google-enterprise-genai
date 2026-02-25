@@ -41,5 +41,4 @@ module "ml_infra_projects" {
   environment_kms_project_id             = ""
   prevent_destroy                        = var.prevent_destroy
   enable_cloudbuild_deploy               = local.enable_cloudbuild_deploy
-  create_project_sa                      = false
 }
