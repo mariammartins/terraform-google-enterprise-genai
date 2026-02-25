@@ -38,6 +38,7 @@ module "app_infra_artifacts_project" {
   key_rings           = var.key_rings
   remote_state_bucket = var.remote_state_bucket
   prevent_destroy     = var.prevent_destroy
+  create_project_sa = var.create_project_sa
 
   activate_apis = [
     "artifactregistry.googleapis.com",

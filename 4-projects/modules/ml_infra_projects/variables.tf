@@ -148,6 +148,12 @@ variable "default_service_account" {
   type        = string
 }
 
+variable "create_project_sa" {
+  description = "Whether the default service account for the project shall be created"
+  type        = bool
+  default     = true
+}
+
 variable "cloud_source_service_catalog_repo_name" {
   description = "Name to give the cloud source repository for Service Catalog."
   type        = string
