@@ -20,7 +20,7 @@ locals {
 
 // Creates a keyring with logging key for each region (us-central1, us-east4)
 module "kms_keyring" {
-  source = "../ml_kms_keyring"
+  source = "../../../modules/ml_kms_keyring"
 
   keyring_admins = [
     "serviceAccount:${local.projects_step_terraform_service_account_email}"

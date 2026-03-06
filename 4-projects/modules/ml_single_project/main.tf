@@ -125,7 +125,7 @@ resource "google_compute_subnetwork_iam_member" "account_role_to_vpc_subnets" {
 
 // Add key for project
 module "kms_keys" {
-  source              = "../ml_kms_key"
+  source              = "../../../modules/ml_kms_key"
   key_rings           = var.key_rings
   key_rotation_period = var.key_rotation_period
   project_name        = module.project.project_name
