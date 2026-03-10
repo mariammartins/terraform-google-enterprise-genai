@@ -15,7 +15,7 @@
  */
 
 module "ml_dns_vertex_ai" {
-  source = "../../modules/ml_dns_notebooks"
+  source = "../ml_dns_notebooks"
 
   project_id                         = local.restricted_project_id
   private_service_connect_ip         = var.restricted_private_service_connect_ip

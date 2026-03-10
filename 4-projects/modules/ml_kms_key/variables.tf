@@ -14,20 +14,23 @@
  * limitations under the License.
  */
 
-locals {
-  logging_key_name = module.env_logs.project_id
+variable "key_rings" {
+  description = "Keyrings to attach project key to."
+  type        = list(string)
 }
 
-// Creates a keyring with logging key for each region (us-central1, us-east4)
-module "kms_keyring" {
-  source = "../ml_kms_keyring"
+variable "project_name" {
+  description = "Project Name."
+  type        = string
+}
 
-  keyring_admins = [
-    "serviceAccount:${local.projects_step_terraform_service_account_email}"
-  ]
-  project_id          = module.env_kms.project_id
-  keyring_regions     = var.keyring_regions
-  keyring_name        = var.keyring_name
-  keys                = [local.logging_key_name]
-  kms_prevent_destroy = var.kms_prevent_destroy
+variable "key_rotation_period" {
+  description = "Rotation period in seconds to be used for KMS Key."
+  type        = string
+  default     = "7776000s"
+}
+
+variable "prevent_destroy" {
+  description = "Prevent Key destruction."
+  type        = bool
 }

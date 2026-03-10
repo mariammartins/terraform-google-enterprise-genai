@@ -22,7 +22,7 @@ locals {
 }
 
 module "ml_infra_projects" {
-  source = "../../../modules/ml_infra_projects"
+  source = "../../modules/ml_infra_projects"
 
   org_id                                 = local.org_id
   folder_id                              = local.common_folder_name

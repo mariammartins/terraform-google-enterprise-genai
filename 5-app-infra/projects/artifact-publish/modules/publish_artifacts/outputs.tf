@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 Google LLC
+ * Copyright 2021 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,7 @@
  * limitations under the License.
  */
 
-locals {
-  logging_key_name = module.env_logs.project_id
+output "cloudbuild_trigger_id" {
+  value = google_cloudbuild_trigger.docker_build.id
 }
 
-// Creates a keyring with logging key for each region (us-central1, us-east4)
-module "kms_keyring" {
-  source = "../ml_kms_keyring"
-
-  keyring_admins = [
-    "serviceAccount:${local.projects_step_terraform_service_account_email}"
-  ]
-  project_id          = module.env_kms.project_id
-  keyring_regions     = var.keyring_regions
-  keyring_name        = var.keyring_name
-  keys                = [local.logging_key_name]
-  kms_prevent_destroy = var.kms_prevent_destroy
-}

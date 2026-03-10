@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-locals {
-  logging_key_name = module.env_logs.project_id
+data "google_project" "project" {
+  project_id = var.project_id
 }
 
-// Creates a keyring with logging key for each region (us-central1, us-east4)
-module "kms_keyring" {
-  source = "../ml_kms_keyring"
-
-  keyring_admins = [
-    "serviceAccount:${local.projects_step_terraform_service_account_email}"
-  ]
-  project_id          = module.env_kms.project_id
-  keyring_regions     = var.keyring_regions
-  keyring_name        = var.keyring_name
-  keys                = [local.logging_key_name]
-  kms_prevent_destroy = var.kms_prevent_destroy
+data "google_sourcerepo_repository" "artifacts_repo" {
+  name    = var.name
+  project = var.project_id
 }
+
+data "google_client_openid_userinfo" "current_user" {}
