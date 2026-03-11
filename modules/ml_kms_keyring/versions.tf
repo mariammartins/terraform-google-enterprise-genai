@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 Google LLC
+ * Copyright 2026 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,6 @@ terraform {
   required_version = ">= 1.3"
 
   provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-enterprise-genai:ml_kms_key/v0.11.0"
+    module_name = "blueprints/terraform/terraform-google-enterprise-genai:ml_kms_keyring/v0.11.0"
   }
 }

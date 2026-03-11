@@ -30,6 +30,7 @@ variable "project_id" {
 
 variable "gcs_bucket_prefix" {
   description = "Prefix of the bucket name"
+  type        = string
   default     = "bkt"
 }
 

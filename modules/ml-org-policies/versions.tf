@@ -16,4 +16,8 @@
 
 terraform {
   required_version = ">= 1.3"
+
+  provider_meta "google" {
+    module_name = "blueprints/terraform/terraform-google-enterprise-genai:ml-org-policies/v0.11.0"
+  }
 }
