@@ -225,7 +225,7 @@ module "service_catalog" {
   bucket_force_destroy            = var.bucket_force_destroy
   keyring_regions                 = var.keyring_regions
   key_rings                       = local.keyrings
+  log_bucket                      = module.ml_logging.name
 
-  log_bucket     = module.ml_logging.name
   kms_crypto_key = module.kms_keyrings[one(local.region_kms_keyring)].keys[var.service_catalog_project_name]
 }
