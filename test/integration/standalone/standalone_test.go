@@ -179,6 +179,7 @@ func TestStandalone(t *testing.T) {
 
 	temp := tft.NewTFBlueprintTest(t,
 		tft.WithTFDir("../../../examples/standalone"),
+		tft.WithRetryableTerraformErrors(testutils.RetryableTransientErrors, 1, 2*time.Minute),
 	)
 
 	// Create Access Context Manager Policy ID if needed
