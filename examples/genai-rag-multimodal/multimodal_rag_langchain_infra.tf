@@ -115,7 +115,8 @@ resource "google_storage_bucket_iam_member" "notebook_runner_bucket_admin" {
 resource "google_kms_crypto_key_iam_member" "service_agent_kms_key_binding" {
   for_each = toset([
     "serviceAccount:service-${data.google_project.ml_project.number}@compute-system.iam.gserviceaccount.com",
-    "serviceAccount:service-${data.google_project.ml_project.number}@gcp-sa-notebooks.iam.gserviceaccount.com"
+    "serviceAccount:service-${data.google_project.ml_project.number}@gcp-sa-notebooks.iam.gserviceaccount.com",
+    "serviceAccount:service-${data.google_project.ml_project.number}@gcp-sa-aiplatform.iam.gserviceaccount.com"
   ])
   crypto_key_id = var.kms_key
   role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
