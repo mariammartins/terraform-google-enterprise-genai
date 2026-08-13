@@ -467,7 +467,6 @@ If you followed the optional step to move your state to GCS, follow these steps 
 | org\_id | GCP organization ID (numeric). Required for Agent Identity IAM bindings. | `string` | `null` | no |
 | platform\_admin\_members | List of IAM members granted roles: discoveryengine.admin always; modelarmor.admin and modelarmor.floorSettingsAdmin when enable\_model\_armor; aiplatform.user (e.g. ["user:admin@example.com"]) | `list(string)` | `[]` | no |
 | primary\_subnet\_cidr | CIDR range for the primary subnet | `string` | `"10.0.0.0/20"` | no |
-| project\_deletion\_policy | Project deletion policy. Possible values are: "PREVENT", "ABANDON", "DELETE". | `string` | `"DELETE"` | no |
 | project\_id | The GCP project ID | `string` | n/a | yes |
 | project\_number | The numeric identifier (e.g., 123456789012) of the Google Cloud project. | `string` | n/a | yes |
 | proxy\_subnet\_cidr | CIDR range for the proxy-only subnet | `string` | `"10.9.0.0/24"` | no |

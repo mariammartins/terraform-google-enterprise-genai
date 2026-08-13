@@ -93,19 +93,19 @@ variable "enabled_services" {
 variable "kms_prevent_destroy" {
   description = "If set to true, delete KMS keyring and keys when destroying the module; otherwise, destroying the module will fail if KMS keys are present."
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "bucket_force_destroy" {
   description = "When deleting a bucket, this boolean option will delete all contained objects. If false, Terraform will fail to delete buckets which contain objects."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "encrypt_gcs_bucket_tfstate" {
   description = "Encrypt the bucket used for storing Terraform state files in the seed project."
   type        = bool
-  default     = false
+  default     = true
 }
 
 # ==============================================================================
