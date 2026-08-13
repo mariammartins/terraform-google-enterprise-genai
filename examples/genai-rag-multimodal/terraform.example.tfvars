@@ -14,24 +14,8 @@
  * limitations under the License.
  */
 
-terraform {
-  required_version = ">= 1.3"
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = ">= 3.50"
-    }
-    google-beta = {
-      source  = "hashicorp/google-beta"
-      version = ">= 3.50"
-    }
-  }
-
-  provider_meta "google" {
-    module_name = "blueprints/terraform/terraform-google-enterprise-genai:single_project/v0.0.1"
-  }
-
-  provider_meta "google-beta" {
-    module_name = "blueprints/terraform/terraform-google-enterprise-genai:single_project/v0.0.1"
-  }
-}
+kms_key                   = "projects/KMS-PROJECT-ID/locations/REGION/keyRings/ML-ENV-KEYRING/cryptoKeys/ML-ENV-KEY"
+network                   = "projects/NETWORK-PROJECT-ID/global/networks/NETWORK-NAME"
+subnet                    = "projects/NETWORK-PROJECT-ID/regions/REGION/subnetworks/SUBNET-NAME"
+machine_learning_project  = "MACHINE-LEARNING-PROJECT-ID"
+vector_search_vpc_project = "NETWORK-PROJECT-ID"

@@ -208,6 +208,7 @@ func TestStandalone(t *testing.T) {
 	// Standalone deployment.
 	standalone := tft.NewTFBlueprintTest(t,
 		tft.WithTFDir("../../../examples/standalone"),
+		tft.WithRetryableTerraformErrors(testutils.RetryableTransientErrors, 3, 2*time.Minute),
 		tft.WithVars(vars),
 	)
 
@@ -216,6 +217,7 @@ func TestStandalone(t *testing.T) {
 		projectID := standalone.GetTFSetupStringOutput("project_id")
 		for _, api := range []string{
 			"cloudresourcemanager.googleapis.com",
+			"compute.googleapis.com",
 			"cloudbilling.googleapis.com",
 			"iam.googleapis.com",
 			"storage-api.googleapis.com",
@@ -341,6 +343,7 @@ func TestStandalone(t *testing.T) {
 					"storage-api.googleapis.com",
 					"storage-component.googleapis.com",
 					"storage.googleapis.com",
+					"dns.googleapis.com",
 				},
 				shouldBeInPerimeter: true,
 			},
