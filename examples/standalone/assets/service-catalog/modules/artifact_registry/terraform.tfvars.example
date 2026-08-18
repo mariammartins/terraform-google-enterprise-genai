@@ -1,6 +1,10 @@
 region                 = "us-central1"
 environment            = "development"
+<<<<<<<< HEAD:examples/standalone/assets/service-catalog/modules/artifact_registry/terraform.tfvars.example
 project_id             = "COMPOSER-PROJECT-ID"
+========
+project_id             = "prj-c-composer"
+>>>>>>>> main:5-app-infra/source_repos/service-catalog/modules/artifact_registry/terraform.tfvars.example
 cmek_project_id        = "CMEK-PROJECT-ID"
 name                   = "test-repo"
 description            = "Artifact Repository"

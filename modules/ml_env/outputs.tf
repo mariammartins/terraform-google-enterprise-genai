@@ -16,10 +16,15 @@
 
 output "machine_learning_project_id" {
   description = "Project machine learning project."
-  value       = var.machine_learning_project_id
+  value       = module.machine_learning_project.project_id
 }
 
 output "machine_learning_project_number" {
   description = "Project number of machine learning project."
-  value       = var.machine_learning_project_number
+  value       = module.machine_learning_project.project_number
+}
+
+output "machine_learning_kms_keys" {
+  description = "Key ID for the machine learning project."
+  value       = module.machine_learning_project.kms_keys
 }

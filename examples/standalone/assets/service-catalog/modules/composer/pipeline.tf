@@ -28,7 +28,7 @@ resource "google_secret_manager_secret_iam_policy" "policy" {
 }
 
 resource "google_cloudbuildv2_connection" "repo_connect" {
-  provider = google
+  provider = google-beta
   project  = data.google_project.project.project_id
   location = var.region
   name     = "${var.github_name_prefix}-connection"
@@ -112,8 +112,8 @@ resource "google_cloudbuild_trigger" "zip_files" {
     }
     step {
       id   = "push-to-bucket"
-      name = "gcr.io/cloud-builders/gcloud"
-      args = ["storage", "cp", "/workspace/*.zip", "${google_composer_environment.cluster.config.0.dag_gcs_prefix}/"]
+      name = "gcr.io/cloud-builders/gsutil"
+      args = ["cp", "/workspace/*.zip", "${google_composer_environment.cluster.config.0.dag_gcs_prefix}/"]
     }
   }
 

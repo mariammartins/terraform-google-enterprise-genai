@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+<<<<<<<< HEAD:examples/standalone/providers.tf
 provider "google" {
   impersonate_service_account = var.terraform_service_account
   request_timeout             = "60s"
@@ -22,4 +23,11 @@ provider "google" {
 provider "google-beta" {
   impersonate_service_account = var.terraform_service_account
   request_timeout             = "60s"
+========
+terraform {
+  backend "gcs" {
+    bucket = "UPDATE_ME"
+    prefix = "terraform/vertexai"
+  }
+>>>>>>>> main:examples/standalone/backend.tf.example
 }

@@ -1,6 +1,10 @@
 name        = "isolated-composer-env10"
 environment = "development"
+<<<<<<<< HEAD:examples/standalone/assets/service-catalog/modules/composer/terraform.tfvars.example
 project_id  = "COMPOSER-PROJECT-ID"
+========
+project_id  = "prj-c-composer"
+>>>>>>>> main:5-app-infra/source_repos/service-catalog/modules/composer/terraform.tfvars.example
 cmek_project_id  = "CMEK-PROJECT-ID"
 region      = "us-central1"
 maintenance_window = {
