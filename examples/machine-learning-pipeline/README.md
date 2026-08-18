@@ -1911,7 +1911,7 @@ After the notebook runs successfully and the pipeline's test run finishes in the
     export prj_n_machine_learning_project_id=$(terraform -chdir=$directory output -raw machine_learning_project_id)
     echo $prj_n_machine_learning_project_id
 
-    export non_prod_bucket_name=$(gsutil ls -p $prj_n_machine_learning_project_id | grep -o 'gs://bkt-n-ml[^/]*')
+    export non_prod_bucket_name=$(gcloud storage ls --project $prj_n_machine_learning_project_id | grep -o 'gs://bkt-n-ml[^/]*')
     non_prod_bucket_name=$(echo $non_prod_bucket_name | sed 's#gs://##')
     echo $non_prod_bucket_name
 

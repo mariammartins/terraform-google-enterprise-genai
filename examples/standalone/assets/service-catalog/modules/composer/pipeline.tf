@@ -28,7 +28,7 @@ resource "google_secret_manager_secret_iam_policy" "policy" {
 }
 
 resource "google_cloudbuildv2_connection" "repo_connect" {
-  provider = google
+  provider = google-beta
   project  = data.google_project.project.project_id
   location = var.region
   name     = "${var.github_name_prefix}-connection"

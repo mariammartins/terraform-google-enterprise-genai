@@ -14,9 +14,15 @@
  * limitations under the License.
  */
 
+<<<<<<<< HEAD:examples/standalone/backend.tf.example
 terraform {
   backend "gcs" {
     bucket = "UPDATE_ME"
     prefix = "terraform/vertexai"
   }
+========
+output "pubsub_topic" {
+  description = "Pub/Sub Topic."
+  value       = google_pubsub_topic.pubsub_topic
+>>>>>>>> main:examples/standalone/assets/service-catalog/modules/pubsub/outputs.tf
 }

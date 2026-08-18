@@ -16,7 +16,7 @@
 
 locals {
   //project IDs must start with a letter.
-  //Max length for project_prefix is 3, basde in the projects create in the foundation
+  //Max length for project_prefix is 3, based in the projects create in the genai deployment
   project_prefix = "${random_string.one_letter.result}${random_string.two_alphanumeric.result}"
 }
 
