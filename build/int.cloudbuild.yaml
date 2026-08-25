@@ -1,0 +1,66 @@
+# Copyright 2021 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+timeout: 14400s
+steps:
+
+- id: prepare
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'source /usr/local/bin/task_helper_functions.sh && prepare_environment']
+  env:
+  - 'TF_VAR_folder_id=$_FOLDER_ID'
+  - 'TF_VAR_billing_account=$_BILLING_ACCOUNT'
+
+- id: sleep
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'sleep 480']
+
+- id: create-standalone
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestStandalone --stage init --verbose --test-dir /workspace/test/integration']
+
+- id: converge-standalone
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestStandalone --stage apply --verbose --test-dir /workspace/test/integration']
+
+- id: verify-standalone
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestStandalone --stage verify --verbose --test-dir /workspace/test/integration']
+
+- id: create-appsource-artifact-registry
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestArtifactRegistrySource --stage verify --verbose --test-dir /workspace/test/integration']
+
+- id: create-appsource-service-catalog
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestServiceCatalogSource --stage verify --verbose --test-dir /workspace/test/integration']
+
+- id: destroy-standalone
+  name: 'gcr.io/cloud-foundation-cicd/$_DOCKER_IMAGE_DEVELOPER_TOOLS:$_DOCKER_TAG_VERSION_DEVELOPER_TOOLS'
+  args: ['/bin/bash', '-c', 'cft test run TestStandalone --stage destroy --verbose --test-dir /workspace/test/integration']
+
+tags:
+- 'ci'
+- 'integration'
+options:
+  env:
+  - 'TF_VAR_org_id=$_ORG_ID'
+  - 'TF_VAR_group_email=test-gcp-org-admins@test.blueprints.joonix.net'
+  - 'TF_VAR_create_access_context_manager_access_policy=false'
+  - 'TF_VAR_default_region=us-central1'
+  - 'TF_VAR_instance_region=us-central1'
+  - 'TF_IN_AUTOMATION=true'
+substitutions:
+  _DOCKER_IMAGE_DEVELOPER_TOOLS: 'cft/developer-tools'
+  _DOCKER_TAG_VERSION_DEVELOPER_TOOLS: '1.17'

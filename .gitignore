@@ -1,0 +1,139 @@
+# Terraform files
+# Local execution & cache directories
+**/.terraform/
+**/.terraform*
+
+# State files & locks
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+errored.tfstate
+**/.terraform.tfstate.lock.info
+
+# Dependency lock files (descomente se sua equipe optar por não versionar o lockfile)
+# **/.terraform.lock.hcl
+
+# Plan files & temp runs
+*.tfplan
+tfplan
+**/tmp_plan
+**/.tmp/
+**/tmp/
+
+# Crash logs
+crash.log
+crash.*.log
+crash.tf.json
+
+# Local overrides
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+backend.tf
+!backend.tf.example
+
+# Variables & Secrets (.tfvars)
+*.tfvars
+**/*.tfvars
+*.tfvars.json
+!*.example.tfvars
+!terraform.example.tfvars
+!example.tfvars
+
+# ==============================================================================
+# Credentials, Keys & Secrets
+# ==============================================================================
+.env
+.env.*
+.envrc
+.direnv/
+.creds.json
+*credentials*.json
+credentials.json
+**/credentials.json
+service-account*.json
+*-sa.json
+sa-*.json
+**/secrets/
+
+# Certificates & Private Keys
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+!*.example.pem
+
+# GCP / Cloud CLI Credentials
+.gcloud/
+adc.json
+application_default_credentials.json
+
+# ==============================================================================
+# Build Artifacts, Containers & Deployments
+# ==============================================================================
+# Skaffold & Cloud Run
+skaffold.yaml
+/skaffold
+**/cloud_run/*.yaml
+cloudrun/*.yaml
+
+# Go Binaries & Dependencies
+bin/
+vendor/
+src/dlp-ext-proc/server
+
+# Python & Notebooks
+__pycache__/
+*.py[cod]
+.venv/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# Ruby / Kitchen
+**.gem
+**/Gemfile.lock
+**/inspec.lock
+.kitchen/
+**/.kitchen/
+**/.kitchen.local.yml
+
+# ==============================================================================
+# Tests, Tooling & Local Docs
+# ==============================================================================
+test/fixtures/shared/terraform.tfvars
+test/integration/gcloud/config.sh
+test/integration/tmp/
+**/.cft-reasoning-engine
+.pre-commit-cache/
+.adk/
+.workspaces/
+
+# Scratchpads & Personal Notes
+docs/.temp-apigee.md
+docs/working-commands.md
+docs/notes.md
+docs/todo.md
+docs/todos.md
+
+# Operating System
+# macOS & Windows
+.DS_Store
+Thumbs.db
+._*
+
+# JetBrains (IntelliJ, PyCharm, etc.) & VS Code
+.idea/
+.vscode/
+*.iml
+
+# Vim & Other Editors
+*.swp
+*.swo
+*~
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
