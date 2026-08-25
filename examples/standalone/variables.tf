@@ -15,7 +15,7 @@
  */
 
 variable "org_id" {
-  description = "The numeric organization ID."
+  description = "The numeric organization ID"
   type        = string
 }
 

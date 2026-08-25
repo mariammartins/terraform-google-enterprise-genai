@@ -253,7 +253,7 @@ If you encounter problems during the `apply` execution, please refer to the [Tro
 | logging\_project\_name | Custom project name for the logging project. | `string` | `""` | no |
 | machine\_learning\_project\_name | Custom project name for the Machine Learning project. | `string` | `""` | no |
 | nat\_bgp\_asn | BGP ASN for NAT cloud route. This is needed to allow the Jenkins Agent to download packages and updates from the internet without having an external IP address. | `number` | `64512` | no |
-| org\_id | The numeric organization ID. | `string` | n/a | yes |
+| org\_id | The numeric organization ID | `string` | n/a | yes |
 | parent\_folder | The folder to deploy in. | `string` | n/a | yes |
 | perimeter\_additional\_members | The list of additional members to be added to the enforced perimeter access level members list. Prefix user: (user:email@email.com) or serviceAccount: (serviceAccount:my-service-account@email.com) is required. | `list(string)` | `[]` | no |
 | perimeter\_additional\_members\_dry\_run | The list of additional members to be added to the dry-run perimeter access level members list. To be able to see the resources protected by the VPC Service Controls in the restricted perimeter, add your user in this list. Entries must be in the standard GCP form: `user:email@example.com` or `serviceAccount:my-service-account@example.com`. | `list(string)` | `[]` | no |
