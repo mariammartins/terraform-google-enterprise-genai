@@ -37,18 +37,9 @@ locals {
     : {
       domains        = local._agent_gateway_dns_peering_domains
       target_project = coalesce(try(var.agent_gateway_dns_peering_config.target_project, null), var.project_id)
-      target_network = coalesce(try(var.agent_gateway_dns_peering_config.target_network, null), module.networking.network_self_link)
+      target_network = coalesce(try(var.agent_gateway_dns_peering_config.target_network, null), module.networking.network_id)
     }
   )
-}
-
-module "agent_observability" {
-  source = "../../modules/observability"
-
-  project_id       = var.project_id
-  enable_logs_sink = var.enable_logs_sink
-
-  depends_on = [time_sleep.wait_enable_apis]
 }
 
 module "networking" {
@@ -122,26 +113,33 @@ resource "google_storage_bucket_iam_member" "cloudbuild_service_agent" {
   depends_on = [time_sleep.wait_enable_apis]
 }
 
+# ==============================================================================
+# CERTIFICATES & DNS
+# ==============================================================================
+
 module "certificates" {
+  count  = local.provided_mcp_ssl_certificate_id == null ? 1 : 0
   source = "../../modules/certificates"
 
-  project_id = var.project_id
-  region     = var.default_region
-  # Skip issuance when an existing Certificate Manager cert is attached.
-  dns_zone_domain = local.provided_mcp_ssl_certificate_id == null ? var.dns_zone_domain : null
+  project_id      = var.project_id
+  region          = var.default_region
+  name_prefix     = var.name_prefix
+  tls_mode        = var.tls_mode
+  dns_zone_domain = var.tls_mode == "public_ca" ? var.dns_zone_domain : null
+  mcp_dns_names   = var.mcp_dns_names
 
   depends_on = [time_sleep.wait_enable_apis]
 }
 
 module "dns" {
-  count  = local.provided_mcp_ssl_certificate_id == null && var.dns_zone_domain != null ? 1 : 0
+  count  = var.tls_mode == "public_ca" && local.provided_mcp_ssl_certificate_id == null && var.dns_zone_domain != null ? 1 : 0
   source = "../../modules/dns"
 
   project_id      = var.project_id
   dns_zone_domain = var.dns_zone_domain
   dns_zone_name   = var.dns_zone_name
 
-  certificate_dns_authorizations_regional = module.certificates.regional_dns_authorizations
+  certificate_dns_authorizations_regional = module.certificates[0].regional_dns_authorizations
   vpc_self_links                          = [module.networking.network_self_link]
 
   depends_on = [module.networking, module.certificates]
@@ -212,20 +210,6 @@ resource "google_compute_address" "mcp_lb_in_agent_gw_subnet" {
   description  = "MCP internal LB VIP relocated to the Agent Gateway co-location subnet"
 }
 
-check "agent_gateway_mcp_cert_prereqs" {
-  assert {
-    condition = (
-      var.mcp_internal_dns_zone != null &&
-      var.dns_zone_domain != null &&
-      endswith(
-        trimsuffix(var.mcp_internal_dns_zone.domain, "."),
-        ".${trimsuffix(var.dns_zone_domain, ".")}"
-      )
-    )
-    error_message = "mcp_internal_dns_zone.domain must be a subdomain of dns_zone_domain (e.g. dns_zone_domain = \"agw.example.com.\" + mcp_internal_dns_zone.domain = \"mcp.agw.example.com.\") so Certificate Manager can issue the cert."
-  }
-}
-
 module "mcp_internal_lb" {
   source = "../../modules/mcp_internal_lb"
 
@@ -236,7 +220,7 @@ module "mcp_internal_lb" {
   subnet_self_link   = module.networking.subnet_self_link
   dns_domain         = var.mcp_internal_dns_zone.domain
   protocol           = var.mcp_lb_protocol
-  ssl_certificate_id = local.provided_mcp_ssl_certificate_id != null ? local.provided_mcp_ssl_certificate_id : module.certificates.internal_certificate_id
+  ssl_certificate_id = local.provided_mcp_ssl_certificate_id != null ? local.provided_mcp_ssl_certificate_id : module.certificates[0].ssl_certificate_id
 
   create_address                   = false
   internal_ip_address              = google_compute_address.mcp_lb_in_agent_gw_subnet.address
@@ -259,8 +243,9 @@ module "agent_gateway" {
     google-beta = google-beta
   }
 
-  project_id = var.project_id
-  region     = var.default_region
+  project_id     = var.project_id
+  project_number = var.project_number
+  region         = var.default_region
 
   name                           = var.agent_gateway_name
   network_self_link              = module.networking.network_self_link
@@ -282,6 +267,8 @@ module "agent_gateway" {
   iap_iam_enforcement_mode  = var.agent_gateway_iap_iam_enforcement_mode
 
   dns_peering_config = local.agent_gateway_dns_peering_config_effective
+
+  trust_config_id = local.provided_mcp_ssl_certificate_id != null ? null : try(module.certificates[0].trust_config_id, null)
 
   depends_on = [time_sleep.wait_enable_apis, module.networking, module.mcp_internal_lb]
 }
@@ -330,4 +317,12 @@ module "agent_registry_endpoints" {
   mcp_service_urls        = module.mcp_services.service_urls
 
   depends_on = [time_sleep.wait_enable_apis, module.mcp_services, module.mcp_internal_lb]
+}
+
+module "agent_observability" {
+  source           = "../../modules/observability"
+  project_id       = var.project_id
+  enable_logs_sink = var.enable_logs_sink
+
+  depends_on = [time_sleep.wait_enable_apis]
 }
