@@ -319,10 +319,10 @@ module "agent_registry_endpoints" {
   depends_on = [time_sleep.wait_enable_apis, module.mcp_services, module.mcp_internal_lb]
 }
 
-module "agent_observability" {
-  source           = "../../modules/observability"
-  project_id       = var.project_id
-  enable_logs_sink = var.enable_logs_sink
+# module "agent_observability" {
+#   source           = "../../modules/observability"
+#   project_id       = var.project_id
+#   enable_logs_sink = var.enable_logs_sink
 
-  depends_on = [time_sleep.wait_enable_apis]
-}
+#   depends_on = [time_sleep.wait_enable_apis]
+# }
