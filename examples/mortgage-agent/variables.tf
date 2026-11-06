@@ -255,7 +255,7 @@ variable "mcp_lb_protocol" {
 variable "enable_model_armor" {
   description = "Enable Model Armor template and IAM bindings"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "model_armor_request_template_id" {
