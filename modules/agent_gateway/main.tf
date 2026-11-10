@@ -72,6 +72,19 @@ resource "google_compute_firewall" "agent_gateway_psc_i" {
   }
 }
 
+
+resource "google_project_iam_member" "agent_gateway_network_viewer" {
+  for_each = toset([
+    "roles/compute.networkViewer",
+    "roles/compute.networkUser",
+    "roles/dns.admin",
+  ])
+
+  project = var.project_id
+  role    = each.value
+  member  = "serviceAccount:service-${var.project_number}@gcp-sa-agentgateway.iam.gserviceaccount.com"
+}
+
 resource "google_network_services_agent_connectivity_template" "this" {
   project                        = var.project_id
   agent_connectivity_template_id = "${var.name}-conn-template"
@@ -98,6 +111,11 @@ resource "google_network_services_agent_connectivity_template" "this" {
       }
     }
   }
+
+  depends_on = [
+    google_compute_network_attachment.agent_gateway,
+    google_project_iam_member.agent_gateway_network_viewer
+  ]
 }
 
 # The Agent Gateway itself. Google-managed, AGENT_TO_ANYWHERE.
@@ -112,7 +130,7 @@ resource "google_network_services_agent_gateway" "this" {
 
   registries = [local.registry_uri]
 
-  agent_connectivity_template = "projects/${var.project_number}/locations/${var.region}/agentConnectivityTemplates/${google_network_services_agent_connectivity_template.this.agent_connectivity_template_id}"
+  agent_connectivity_template = google_network_services_agent_connectivity_template.this.id
 }
 
 
@@ -226,7 +244,11 @@ resource "google_network_security_authz_policy" "model_armor" {
     }
   }
 
-  depends_on = [time_sleep.wait_for_gateway, google_network_security_authz_policy.iap]
+  depends_on = [
+    time_sleep.wait_for_gateway,
+    google_network_security_authz_policy.iap,
+    google_project_iam_member.service_extensions_sa
+  ]
 }
 
 resource "google_project_iam_member" "service_extensions_sa" {
