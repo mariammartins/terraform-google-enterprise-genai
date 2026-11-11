@@ -130,9 +130,8 @@ resource "google_network_services_agent_gateway" "this" {
 
   registries = [local.registry_uri]
 
-  agent_connectivity_template = google_network_services_agent_connectivity_template.this.id
+  agent_connectivity_template = "projects/${var.project_number}/locations/${var.region}/agentConnectivityTemplates/${google_network_services_agent_connectivity_template.this.agent_connectivity_template_id}"
 }
-
 
 resource "time_sleep" "wait_for_gateway" {
   depends_on      = [google_network_services_agent_gateway.this]
@@ -171,8 +170,8 @@ resource "google_network_services_authz_extension" "model_armor" {
 
   metadata = {
     "model_armor_settings" = jsonencode([{
-      request_template_id  = "projects/${var.project_id}/locations/${var.region}/templates/${var.model_armor_request_template_id}"
-      response_template_id = "projects/${var.project_id}/locations/${var.region}/templates/${var.model_armor_response_template_id}"
+      request_template_id  = "projects/${var.project_number}/locations/${var.region}/templates/${var.model_armor_request_template_id}"
+      response_template_id = "projects/${var.project_number}/locations/${var.region}/templates/${var.model_armor_response_template_id}"
     }])
   }
 
@@ -184,6 +183,15 @@ resource "google_network_services_authz_extension" "model_armor" {
       error_message = "Both model_armor_request_template_id and model_armor_response_template_id are required when enable_model_armor is true."
     }
   }
+}
+
+resource "time_sleep" "wait_model_armor_iam" {
+  count           = var.enable_model_armor ? 1 : 0
+  create_duration = "30s"
+
+  depends_on = [
+    google_project_iam_member.service_extensions_sa
+  ]
 }
 
 resource "google_network_security_authz_policy" "iap" {
@@ -247,7 +255,7 @@ resource "google_network_security_authz_policy" "model_armor" {
   depends_on = [
     time_sleep.wait_for_gateway,
     google_network_security_authz_policy.iap,
-    google_project_iam_member.service_extensions_sa
+    time_sleep.wait_model_armor_iam
   ]
 }
 

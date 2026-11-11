@@ -147,7 +147,7 @@ To register a domain via the Google Cloud Console:
    export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format='value(projectNumber)')
    export ORG_ID=$(gcloud projects get-ancestors $PROJECT_ID | awk '$2 == "organization" {print $1}')
    export REGION="us-central1"
-   export DOMAIN_NAME="YOUR_DOMAIN_NAME" #mortgage.example.com
+   export DOMAIN_NAME="mortgage.internal" #mortgage.example.com
    ```
 
 ### Create a public Cloud DNS zone
@@ -438,7 +438,7 @@ If you followed the optional step to move your state to GCS, follow these steps 
 | dns\_zone\_domain | The domain name for the public DNS zone (must end with a dot, e.g., 'example.com.'). Required when tls\_mode = 'public\_ca'. | `string` | `null` | no |
 | dns\_zone\_name | The name of the existing Cloud DNS managed zone. If not provided, derived from dns\_zone\_domain. | `string` | `null` | no |
 | enable\_logs\_sink | Enable log sink resources in the observability module. | `bool` | `false` | no |
-| enable\_model\_armor | Enable Model Armor template and IAM bindings | `bool` | `false` | no |
+| enable\_model\_armor | Enable Model Armor template and IAM bindings | `bool` | `true` | no |
 | enable\_model\_armor\_mcp\_floor\_setting | Enable Model Armor floor setting for MCP server protection (BigQuery MCP) | `bool` | `true` | no |
 | enable\_model\_armor\_vertex\_ai | Enable Model Armor integration with Vertex AI (floor setting + IAM) | `bool` | `false` | no |
 | enabled\_services | List of Google Cloud APIs to enable | `list(string)` | <pre>[<br>  "compute.googleapis.com",<br>  "storage.googleapis.com",<br>  "storage-api.googleapis.com",<br>  "storage-component.googleapis.com",<br>  "dns.googleapis.com",<br>  "containerregistry.googleapis.com",<br>  "artifactregistry.googleapis.com",<br>  "run.googleapis.com",<br>  "monitoring.googleapis.com",<br>  "logging.googleapis.com",<br>  "cloudtrace.googleapis.com",<br>  "cloudprofiler.googleapis.com",<br>  "servicenetworking.googleapis.com",<br>  "networkmanagement.googleapis.com",<br>  "networkservices.googleapis.com",<br>  "modelarmor.googleapis.com",<br>  "networksecurity.googleapis.com",<br>  "iam.googleapis.com",<br>  "iamcredentials.googleapis.com",<br>  "sts.googleapis.com",<br>  "cloudkms.googleapis.com",<br>  "binaryauthorization.googleapis.com",<br>  "secretmanager.googleapis.com",<br>  "iap.googleapis.com",<br>  "cloudresourcemanager.googleapis.com",<br>  "serviceusage.googleapis.com",<br>  "stackdriver.googleapis.com",<br>  "autoscaling.googleapis.com",<br>  "cloudbuild.googleapis.com",<br>  "certificatemanager.googleapis.com",<br>  "cloudquotas.googleapis.com",<br>  "aiplatform.googleapis.com",<br>  "dlp.googleapis.com",<br>  "telemetry.googleapis.com",<br>  "apphub.googleapis.com",<br>  "agentregistry.googleapis.com"<br>]</pre> | no |

@@ -105,6 +105,14 @@ resource "google_project_iam_member" "cloudbuild_registry" {
   member  = "serviceAccount:${var.project_number}-compute@developer.gserviceaccount.com"
 }
 
+# resource "google_artifact_registry_repository_iam_member" "run_sa_reader" {
+#   project    = var.project_id
+#   location   = var.default_region
+#   repository = google_artifact_registry_repository.registry.name
+#   role       = "roles/artifactregistry.reader"
+#   member     = "serviceAccount:service-${var.project_number}@serverless-robot-prod.iam.gserviceaccount.com"
+# }
+
 resource "google_storage_bucket_iam_member" "cloudbuild_service_agent" {
   bucket = google_storage_bucket.cloudbuild.name
   role   = "roles/storage.objectAdmin"
@@ -193,6 +201,7 @@ module "mcp_services" {
   source = "../../modules/mcp_cloud_run"
 
   project_id              = var.project_id
+  project_number          = var.project_number
   region                  = var.default_region
   services                = var.mcp_services
   mcp_internal_dns_domain = local.mcp_internal_dns_domain_or_null
