@@ -71,7 +71,7 @@ locals {
 module "log_export" {
   count   = var.enable_logs_sink && var.log_sink_destination != null ? 1 : 0
   source  = "terraform-google-modules/log-export/google"
-  version = "~> 11.0"
+  version = "~> 12.0"
 
   parent_resource_type   = "project"
   parent_resource_id     = var.project_id
@@ -85,7 +85,7 @@ module "log_export" {
 module "custom_log_exports" {
   for_each = var.enable_logs_sink ? var.log_sinks : {}
   source   = "terraform-google-modules/log-export/google"
-  version  = "~> 11.0"
+  version  = "~> 12.0"
 
   parent_resource_type   = "project"
   parent_resource_id     = var.project_id
